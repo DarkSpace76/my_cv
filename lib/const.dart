@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const double hSliverToBoxAdapter = 50;
+const double hSliverToBoxAdapter = 100;
 
 const bgColor = Color.fromARGB(255, 21, 31, 37);
 const bgColor1 = Color.fromARGB(255, 77, 159, 133);
