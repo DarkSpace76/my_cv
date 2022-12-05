@@ -1,12 +1,13 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:my_resume/components/about_me.dart';
+import 'package:my_resume/sections/about_me.dart';
 import 'package:my_resume/components/feed_box.dart';
-import 'package:my_resume/components/prof_information.dart';
-import 'package:my_resume/components/user_box.dart';
+import 'package:my_resume/sections/portfolio.dart';
+import 'package:my_resume/sections/prof_information.dart';
 import 'package:my_resume/const.dart';
 import 'dart:math' as math;
+
+import 'package:my_resume/sections/user_box.dart';
+import 'package:my_resume/sections/work_%20experiance.dart';
 
 class CvPage extends StatefulWidget {
   const CvPage({super.key});
@@ -31,11 +32,17 @@ class _CvPageState extends State<CvPage> {
               left: 100,
               child: Transform.rotate(
                   angle: math.pi / 360 * 60,
-                  child: CustomPaint(painter: bgTraingle2()))),
+                  child: CustomPaint(painter: bgTraingle2(color: bgColor1)))),
+          Positioned(
+              bottom: MediaQuery.of(context).size.height / 2,
+              left: MediaQuery.of(context).size.width / 3,
+              child: Transform.rotate(
+                  angle: math.pi / 360 * 180,
+                  child: CustomPaint(painter: bgTraingle2(color: bgColor2)))),
           NotificationListener(
             onNotification: (notification) {
               setState(() {
-                disableScroll = _customScrollController.position.pixels < 50;
+                disableScroll = _customScrollController.position.pixels < 100;
               });
 
               return false;
@@ -80,7 +87,7 @@ Widget contentPage(BuildContext context, {required bool disableScroll}) {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             userBox(
-                margin: disableScroll
+                padding: disableScroll
                     ? EdgeInsets.zero
                     : const EdgeInsets.only(top: 10))
           ],
@@ -99,8 +106,8 @@ Widget contentPage(BuildContext context, {required bool disableScroll}) {
               children: [
                 feedBox(context, child: aboutMe()),
                 feedBox(context, child: profInformation()),
-                feedBox(context, child: aboutMe()),
-                feedBox(context, child: aboutMe()),
+                feedBox(context, child: workExperianse()),
+                feedBox(context, child: portfolio())
               ],
             ),
           ),
@@ -131,10 +138,13 @@ class bgTraingle1 extends CustomPainter {
 }
 
 class bgTraingle2 extends CustomPainter {
+  Color color;
+  bgTraingle2({required this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = bgColor1
+      ..color = color
       ..strokeWidth = 15;
     Path path = Path();
 
