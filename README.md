@@ -1,2 +1,2 @@
-# my_resume
- MyResume
+# my_cv
+ MyCV
