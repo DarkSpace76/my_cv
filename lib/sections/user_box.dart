@@ -9,7 +9,9 @@ Widget userBox({EdgeInsets? padding}) {
         child: BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
       child: Container(
-        constraints: BoxConstraints(
+        width: 300,
+        height: 500,
+        constraints: const BoxConstraints(
             maxHeight: 500, minHeight: 500, maxWidth: 300, minWidth: 300),
         decoration: BoxDecoration(color: Colors.grey.shade700.withOpacity(0.2)),
         child: Column(

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_resume/sections/about_me.dart';
 import 'package:my_resume/components/feed_box.dart';
@@ -8,7 +9,9 @@ import 'package:my_resume/const.dart';
 import 'dart:math' as math;
 
 import 'package:my_resume/sections/user_box.dart';
-import 'package:my_resume/sections/work_%20experiance.dart';
+import 'package:my_resume/sections/work_experiance.dart';
+
+GlobalKey key = GlobalKey();
 
 class CvPage extends StatefulWidget {
   const CvPage({super.key});
@@ -40,83 +43,105 @@ class _CvPageState extends State<CvPage> {
               child: Transform.rotate(
                   angle: math.pi / 360 * 180,
                   child: CustomPaint(painter: bgTraingle2(color: bgColor2)))),
-          NotificationListener(
-            onNotification: (notification) {
-              setState(() {
-                disableScroll = _customScrollController.position.pixels < 100;
-              });
-
-              return false;
-            },
-            child: CustomScrollView(
-              controller: _customScrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Container(
-                    height: hSliverToBoxAdapter,
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    findChildIndexCallback: (key) {
-                      print(key);
-                    },
-                    childCount: 1,
-                    (context, index) => Container(
-                        height: MediaQuery.of(context).size.height,
-                        child:
-                            contentPage(context, disableScroll: disableScroll)),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          ContentPage()
         ],
       ),
     );
   }
 }
 
-Widget contentPage(BuildContext context, {required bool disableScroll}) {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.33,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            userBox(
-                padding: disableScroll
-                    ? EdgeInsets.zero
-                    : const EdgeInsets.only(top: 10))
-          ],
-        ),
-      ),
-      SizedBox(width: 40),
-      ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: true),
-        child: Expanded(
-          child: SingleChildScrollView(
-            physics: disableScroll
-                ? NeverScrollableScrollPhysics()
-                : BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                feedBox(context, child: aboutMe()),
-                feedBox(context, child: profInformation()),
-                feedBox(context, child: workExperianse()),
-                feedBox(context, child: portfolio()),
-                feedBox(context, child: interests())
-              ],
-            ),
+class ContentPage extends StatefulWidget {
+  const ContentPage({super.key});
+
+  @override
+  State<ContentPage> createState() => _ContentPageState();
+}
+
+class _ContentPageState extends State<ContentPage> {
+  ScrollController scrollController = ScrollController();
+  double offsetUserBox = 0;
+
+  @override
+  void initState() {
+    scrollController.addListener(() {
+      print(scrollController.position.pixels);
+    });
+    super.initState();
+  }
+
+  void _scroolPosition(PointerSignalEvent signal) {
+    double offset = 25;
+    double currentPos = scrollController.position.pixels;
+    double maxPosition = scrollController.position.maxScrollExtent;
+    double minPosition = scrollController.position.minScrollExtent;
+
+    setState(() {
+      RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
+      Offset position =
+          box.localToGlobal(Offset.zero); //this is global position
+      if (signal is PointerScrollEvent) {
+        /*  if (signal.scrollDelta.dy < 0 && currentPos > minPosition) {
+          scrollController.jumpTo(currentPos - offset);
+        } else if (signal.scrollDelta.dy > 0 && currentPos < maxPosition) {
+          scrollController.jumpTo(currentPos + offset);
+        } */
+
+        if (scrollController.position.pixels > 0 &&
+            scrollController.position.pixels + offset >= 100 &&
+            signal.scrollDelta.dy > 0 &&
+            currentPos < maxPosition) {
+          offsetUserBox += offset;
+        }
+        if (offsetUserBox > 0 && signal.scrollDelta.dy < 0) {
+          offsetUserBox -= offset;
+        }
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      // onPointerSignal: _scroolPosition,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        // physics: NeverScrollableScrollPhysics(),
+        child: Padding(
+          key: key,
+          padding: const EdgeInsets.only(top: 100),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Transform.translate(
+              //offset: Offset(0, offsetUserBox),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.33,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [userBox()],
+                ),
+                // ),
+              ),
+              SizedBox(width: 40),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    feedBox(context, child: aboutMe()),
+                    feedBox(context, child: profInformation()),
+                    feedBox(context, child: workExperianse()),
+                    feedBox(context, child: portfolio()),
+                    feedBox(context, child: interests())
+                  ],
+                ),
+              )
+            ],
           ),
         ),
-      )
-    ],
-  );
+      ),
+    );
+  }
 }
 
 class bgTraingle1 extends CustomPainter {
