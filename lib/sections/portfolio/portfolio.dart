@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:my_resume/components/text_widgets.dart';
+import 'package:my_resume/sections/portfolio/view_project.dart';
 import 'package:my_resume/style.dart';
 
 Widget portfolio() {
@@ -112,61 +113,67 @@ class _HoverImageState extends State<HoverImage>
           _controller.reverse();
         });
       },
-      child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0.0, 20.0),
-              spreadRadius: -10.0,
-              blurRadius: 20.0,
-            )
-          ],
-        ),
-        child: Stack(
-          children: [
-            Container(color: widget.color),
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration:
-                  BoxDecoration(color: Colors.black.withOpacity(opacity.value)),
-            ),
-            Center(
-              child: Opacity(
-                opacity: opacityText.value,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Transform.translate(
-                        offset: Offset(0, offsetYPosTop.value),
-                        child: Text(
-                          'Project #1',
-                          style: textStyle(bold: true, textSize: 25),
+      child: GestureDetector(
+        onTap: (() {
+          viewProjcet(context);
+        }),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0.0, 20.0),
+                spreadRadius: -10.0,
+                blurRadius: 20.0,
+              )
+            ],
+          ),
+          child: Stack(
+            children: [
+              Container(color: widget.color),
+              Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(opacity.value)),
+              ),
+              Center(
+                child: Opacity(
+                  opacity: opacityText.value,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Transform.translate(
+                          offset: Offset(0, offsetYPosTop.value),
+                          child: Text(
+                            'Project #1',
+                            style: textStyle(bold: true, textSize: 25),
+                          ),
                         ),
-                      ),
-                      Text(
-                        'this project was created for test purposes',
-                        textAlign: TextAlign.center,
-                        style: textStyle(),
-                      ),
-                      Transform.translate(
-                        offset: Offset(0, offsetYPosBottom.value),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              for (int i = 0; i < 5; i++) FlutterLogo(size: 20),
-                            ]),
-                      ),
-                    ],
+                        Text(
+                          'this project was created for test purposes',
+                          textAlign: TextAlign.center,
+                          style: textStyle(),
+                        ),
+                        Transform.translate(
+                          offset: Offset(0, offsetYPosBottom.value),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                for (int i = 0; i < 5; i++)
+                                  FlutterLogo(size: 20),
+                              ]),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

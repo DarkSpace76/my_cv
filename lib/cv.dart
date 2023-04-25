@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_resume/sections/about_me.dart';
 import 'package:my_resume/components/feed_box.dart';
-import 'package:my_resume/sections/portfolio.dart';
+import 'package:my_resume/sections/interests.dart';
+import 'package:my_resume/sections/portfolio/portfolio.dart';
 import 'package:my_resume/sections/prof_information.dart';
 import 'package:my_resume/const.dart';
 import 'dart:math' as math;
@@ -107,7 +108,8 @@ Widget contentPage(BuildContext context, {required bool disableScroll}) {
                 feedBox(context, child: aboutMe()),
                 feedBox(context, child: profInformation()),
                 feedBox(context, child: workExperianse()),
-                feedBox(context, child: portfolio())
+                feedBox(context, child: portfolio()),
+                feedBox(context, child: interests())
               ],
             ),
           ),
