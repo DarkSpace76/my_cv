@@ -10,8 +10,7 @@ import 'dart:math' as math;
 
 import 'package:my_resume/sections/user_box.dart';
 import 'package:my_resume/sections/work_experiance.dart';
-
-GlobalKey key = GlobalKey();
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class CvPage extends StatefulWidget {
   const CvPage({super.key});
@@ -60,13 +59,44 @@ class ContentPage extends StatefulWidget {
 class _ContentPageState extends State<ContentPage> {
   ScrollController scrollController = ScrollController();
   double offsetUserBox = 0;
+  late Tween<double> animate = Tween<double>(begin: 0, end: 50);
+
+  final GlobalKey _key = GlobalKey();
+  final ScrollController _controller = ScrollController();
+  bool _isStuck = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
-    scrollController.addListener(() {
-      print(scrollController.position.pixels);
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+  }
+
+  void _afterLayout(_) {
+    _controller.addListener(
+      () {
+        /*  final RenderBox renderBox =
+            _key.currentContext?.findRenderObject() as RenderBox;
+
+        final Offset offset = renderBox.localToGlobal(Offset.zero);
+        final double startY = offset.dy; */
+
+        setState(() {
+          _isStuck = _controller.position.pixels > 100;
+          
+        });
+
+        _controller.position.pixels < 100
+                ? Tween<double>(begin: 50, end: 0)
+                : Tween<double>(begin: 0, end: 50),
+        // print("Check position:  - $startY - $_isStuck");
+      },
+    );
   }
 
   void _scroolPosition(PointerSignalEvent signal) {
@@ -76,9 +106,6 @@ class _ContentPageState extends State<ContentPage> {
     double minPosition = scrollController.position.minScrollExtent;
 
     setState(() {
-      RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
-      Offset position =
-          box.localToGlobal(Offset.zero); //this is global position
       if (signal is PointerScrollEvent) {
         /*  if (signal.scrollDelta.dy < 0 && currentPos > minPosition) {
           scrollController.jumpTo(currentPos - offset);
@@ -101,45 +128,57 @@ class _ContentPageState extends State<ContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      // onPointerSignal: _scroolPosition,
-      child: SingleChildScrollView(
-        controller: scrollController,
-        // physics: NeverScrollableScrollPhysics(),
-        child: Padding(
-          key: key,
-          padding: const EdgeInsets.only(top: 100),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Transform.translate(
-              //offset: Offset(0, offsetUserBox),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.33,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [userBox()],
-                ),
-                // ),
+    return Stack(
+      children: [
+        SingleChildScrollView(
+            controller: _controller,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 100),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.33,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [if (!_isStuck) userBox(key: _key)],
+                    ),
+                  ),
+                  SizedBox(width: 40),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        feedBox(context, child: aboutMe()),
+                        feedBox(context, child: profInformation()),
+                        feedBox(context, child: workExperianse()),
+                        feedBox(context, child: portfolio()),
+                        feedBox(context, child: interests())
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(width: 40),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    feedBox(context, child: aboutMe()),
-                    feedBox(context, child: profInformation()),
-                    feedBox(context, child: workExperianse()),
-                    feedBox(context, child: portfolio()),
-                    feedBox(context, child: interests())
-                  ],
-                ),
-              )
-            ],
+            )),
+        if (_isStuck)
+          TweenAnimationBuilder<double>(
+            tween:animate,
+            duration: const Duration(milliseconds: 100),
+            builder: (BuildContext context, double padding, Widget? child) {
+              return Padding(
+                  padding: EdgeInsets.only(top: padding), child: child);
+            },
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.33,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [userBox(key: _key)],
+              ),
+            ),
           ),
-        ),
-      ),
+      ],
     );
   }
 }

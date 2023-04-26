@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-Widget userBox({EdgeInsets? padding}) {
+Widget userBox({EdgeInsets? padding, GlobalKey<State<StatefulWidget>>? key}) {
   return Padding(
+    key: key,
     padding: padding ?? EdgeInsets.zero,
     child: ClipRect(
         child: BackdropFilter(

@@ -48,27 +48,31 @@ class _CvPageState extends State<CvPage> {
 
               return false;
             },
-            child: CustomScrollView(
-              controller: _customScrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Container(
-                    height: hSliverToBoxAdapter,
+            child: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: CustomScrollView(
+                controller: _customScrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: hSliverToBoxAdapter,
+                    ),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    findChildIndexCallback: (key) {
-                      print(key);
-                    },
-                    childCount: 1,
-                    (context, index) => Container(
-                        height: MediaQuery.of(context).size.height,
-                        child:
-                            contentPage(context, disableScroll: disableScroll)),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      findChildIndexCallback: (key) {
+                        print(key);
+                      },
+                      childCount: 1,
+                      (context, index) => Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: contentPage(context,
+                              disableScroll: disableScroll)),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
