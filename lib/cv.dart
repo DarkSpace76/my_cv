@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_resume/sections/about_me.dart';
 import 'package:my_resume/components/feed_box.dart';
@@ -10,7 +9,6 @@ import 'dart:math' as math;
 
 import 'package:my_resume/sections/user_box.dart';
 import 'package:my_resume/sections/work_experiance.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class CvPage extends StatefulWidget {
   const CvPage({super.key});
@@ -88,18 +86,17 @@ class _ContentPageState extends State<ContentPage> {
 
         setState(() {
           _isStuck = _controller.position.pixels > 100;
-          
         });
 
         _controller.position.pixels < 100
-                ? Tween<double>(begin: 50, end: 0)
-                : Tween<double>(begin: 0, end: 50),
+            ? Tween<double>(begin: 50, end: 0)
+            : Tween<double>(begin: 0, end: 50);
         // print("Check position:  - $startY - $_isStuck");
       },
     );
   }
 
-  void _scroolPosition(PointerSignalEvent signal) {
+/*   void _scroolPosition(PointerSignalEvent signal) {
     double offset = 25;
     double currentPos = scrollController.position.pixels;
     double maxPosition = scrollController.position.maxScrollExtent;
@@ -124,7 +121,7 @@ class _ContentPageState extends State<ContentPage> {
         }
       }
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +161,7 @@ class _ContentPageState extends State<ContentPage> {
             )),
         if (_isStuck)
           TweenAnimationBuilder<double>(
-            tween:animate,
+            tween: animate,
             duration: const Duration(milliseconds: 100),
             builder: (BuildContext context, double padding, Widget? child) {
               return Padding(
