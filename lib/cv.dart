@@ -91,7 +91,7 @@ class _ContentPageState extends State<ContentPage> {
         _controller.position.pixels < 100
             ? Tween<double>(begin: 50, end: 0)
             : Tween<double>(begin: 0, end: 50);
-        // print("Check position:  - $startY - $_isStuck");
+        print("Check position:  - $startY - $_isStuck");
       },
     );
   }
