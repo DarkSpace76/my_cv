@@ -56,8 +56,9 @@ class ContentPage extends StatefulWidget {
 
 class _ContentPageState extends State<ContentPage> {
   ScrollController scrollController = ScrollController();
-  double offsetUserBox = 0;
-  late Tween<double> animate = Tween<double>(begin: 0, end: 50);
+  double offsetUserBox = 15;
+  double paddingTop = 150;
+  late Tween<double> animate = Tween<double>(begin: 0, end: offsetUserBox);
 
   final GlobalKey _key = GlobalKey();
   final ScrollController _controller = ScrollController();
@@ -78,50 +79,24 @@ class _ContentPageState extends State<ContentPage> {
   void _afterLayout(_) {
     _controller.addListener(
       () {
-        /*  final RenderBox renderBox =
+        final RenderBox renderBox =
             _key.currentContext?.findRenderObject() as RenderBox;
 
         final Offset offset = renderBox.localToGlobal(Offset.zero);
-        final double startY = offset.dy; */
+        final double startY = offset.dy;
 
         setState(() {
-          _isStuck = _controller.position.pixels > 100;
+          if (!_isStuck &&
+              _controller.position.pixels > paddingTop - offsetUserBox) {
+            _isStuck = true;
+          } else {
+            if (_controller.position.pixels < paddingTop - offsetUserBox)
+              _isStuck = false;
+          }
         });
-
-        _controller.position.pixels < 100
-            ? Tween<double>(begin: 50, end: 0)
-            : Tween<double>(begin: 0, end: 50);
-        print("Check position:  - $startY - $_isStuck");
       },
     );
   }
-
-/*   void _scroolPosition(PointerSignalEvent signal) {
-    double offset = 25;
-    double currentPos = scrollController.position.pixels;
-    double maxPosition = scrollController.position.maxScrollExtent;
-    double minPosition = scrollController.position.minScrollExtent;
-
-    setState(() {
-      if (signal is PointerScrollEvent) {
-        /*  if (signal.scrollDelta.dy < 0 && currentPos > minPosition) {
-          scrollController.jumpTo(currentPos - offset);
-        } else if (signal.scrollDelta.dy > 0 && currentPos < maxPosition) {
-          scrollController.jumpTo(currentPos + offset);
-        } */
-
-        if (scrollController.position.pixels > 0 &&
-            scrollController.position.pixels + offset >= 100 &&
-            signal.scrollDelta.dy > 0 &&
-            currentPos < maxPosition) {
-          offsetUserBox += offset;
-        }
-        if (offsetUserBox > 0 && signal.scrollDelta.dy < 0) {
-          offsetUserBox -= offset;
-        }
-      }
-    });
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +105,7 @@ class _ContentPageState extends State<ContentPage> {
         SingleChildScrollView(
             controller: _controller,
             child: Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(top: paddingTop),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +118,7 @@ class _ContentPageState extends State<ContentPage> {
                       children: [if (!_isStuck) userBox(key: _key)],
                     ),
                   ),
-                  SizedBox(width: 40),
+                  const SizedBox(width: 40),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,21 +135,15 @@ class _ContentPageState extends State<ContentPage> {
               ),
             )),
         if (_isStuck)
-          TweenAnimationBuilder<double>(
-            tween: animate,
-            duration: const Duration(milliseconds: 100),
-            builder: (BuildContext context, double padding, Widget? child) {
-              return Padding(
-                  padding: EdgeInsets.only(top: padding), child: child);
-            },
+          Padding(
+            padding: EdgeInsets.only(top: offsetUserBox),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.33,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [userBox(key: _key)],
-              ),
-            ),
-          ),
+                width: MediaQuery.of(context).size.width * 0.33,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [userBox(key: _key)],
+                )),
+          )
       ],
     );
   }
