@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/resume.dart';
+import 'package:my_resume/cv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+/*   await Firebase.initializeApp(
+      // options: DefaultFirebaseOptions.currentPlatform
+      ); */
+
+  /*  if (kDebugMode) {
+    try {
+      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  } */
   runApp(const MyApp());
 }
 
@@ -16,6 +30,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const ResumePage());
+        home: const CvPage());
   }
 }
