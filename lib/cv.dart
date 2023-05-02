@@ -90,8 +90,9 @@ class _ContentPageState extends State<ContentPage> {
               _controller.position.pixels > paddingTop - offsetUserBox) {
             _isStuck = true;
           } else {
-            if (_controller.position.pixels < paddingTop - offsetUserBox)
+            if (_controller.position.pixels < paddingTop - offsetUserBox) {
               _isStuck = false;
+            }
           }
         });
       },
