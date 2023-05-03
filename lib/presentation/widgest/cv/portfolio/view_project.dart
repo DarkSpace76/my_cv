@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:my_resume/const.dart';
-import 'package:my_resume/sections/portfolio/phone_template.dart';
+import 'package:my_resume/utils/const.dart';
 
 void viewProjcet(BuildContext context) {
   showDialog(

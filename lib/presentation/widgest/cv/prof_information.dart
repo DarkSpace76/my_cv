@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/components/indent.dart';
-import 'package:my_resume/components/text_widgets.dart';
-import 'package:my_resume/const.dart';
+import 'package:my_resume/utils/const.dart';
+import 'package:my_resume/presentation/widgest/indent.dart';
+import 'package:my_resume/presentation/widgest/text_widgets.dart';
 
 Widget profInformation() {
   return Column(children: [

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/cv.dart';
+import 'package:my_resume/presentation/pages/main/cv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

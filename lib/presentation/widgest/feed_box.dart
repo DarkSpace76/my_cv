@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/const.dart';
+import 'package:my_resume/utils/const.dart';
 
 Widget feedBox(BuildContext context, {required Widget child}) {
   return Container(
