@@ -1,8 +1,10 @@
 const userInfo = {
   "user_name": "",
+  "profession": "Flutter Developer",
   "dob": null,
   "adress": "Minsk",
   "email": "aleksandr.syrikvash@gmail.com",
+  "profile_image": "",
   "phone": "375255049672",
   "interests": [
     "interest1",
@@ -85,5 +87,31 @@ const userInfo = {
       "working_hours": {"start": "", "end": ""},
       "description": "qqqqqqqqqq q q q q q q q  q q q qqqqq",
     }
+  ],
+  "projects": [
+    {
+      "name": "name project",
+      "description": "description",
+      "stacks": [],
+      "images": [],
+    },
+    {
+      "name": "name project",
+      "description": "description",
+      "stacks": [],
+      "images": [],
+    },
+    {
+      "name": "name project",
+      "description": "description",
+      "stacks": [],
+      "images": [],
+    },
+    {
+      "name": "name project",
+      "description": "description",
+      "stacks": [],
+      "images": [],
+    },
   ]
 };
