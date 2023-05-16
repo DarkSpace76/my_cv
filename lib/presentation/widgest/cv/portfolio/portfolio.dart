@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:my_resume/components/text_widgets.dart';
-import 'package:my_resume/sections/portfolio/view_project.dart';
-import 'package:my_resume/style.dart';
+import 'package:my_resume/presentation/widgest/cv/portfolio/view_project.dart';
+import 'package:my_resume/presentation/widgest/text_widgets.dart';
+import 'package:my_resume/config/text_style.dart';
 
 Widget portfolio() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       header('PORTFOLIO'),
-      SizedBox(
-        height: 35,
-      ),
+      const SizedBox(height: 35),
       StaggeredGrid.count(
         crossAxisCount: 4,
         mainAxisSpacing: 2,

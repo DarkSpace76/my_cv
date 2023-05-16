@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/cv.dart';
+import 'package:my_resume/app/main.dart';
+import 'package:my_resume/data/datasource/user.dart';
+import 'package:my_resume/domain/models/user.dart';
+import 'package:my_resume/presentation/pages/main/cv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,20 +19,7 @@ void main() async {
       print(e);
     }
   } */
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const CvPage());
-  }
+  User user = User.userFormJson(userInfo);
+  runApp(const App());
 }

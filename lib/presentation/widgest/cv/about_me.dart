@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/style.dart';
-
-import '../components/text_widgets.dart';
+import 'package:my_resume/presentation/widgest/text_widgets.dart';
+import 'package:my_resume/config/text_style.dart';
 
 Widget aboutMe() {
   return Column(

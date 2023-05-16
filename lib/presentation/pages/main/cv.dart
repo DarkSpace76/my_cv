@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/sections/about_me.dart';
-import 'package:my_resume/components/feed_box.dart';
-import 'package:my_resume/sections/interests.dart';
-import 'package:my_resume/sections/portfolio/portfolio.dart';
-import 'package:my_resume/sections/prof_information.dart';
-import 'package:my_resume/const.dart';
+import 'package:my_resume/presentation/widgest/cv/about_me.dart';
+import 'package:my_resume/presentation/widgest/cv/interests.dart';
+import 'package:my_resume/presentation/widgest/cv/prof_information.dart';
+import 'package:my_resume/presentation/widgest/cv/user_box.dart';
+import 'package:my_resume/presentation/widgest/cv/work_experiance.dart';
+import 'package:my_resume/presentation/widgest/feed_box.dart';
+import 'package:my_resume/utils/const.dart';
 import 'dart:math' as math;
 
-import 'package:my_resume/sections/user_box.dart';
-import 'package:my_resume/sections/work_experiance.dart';
+import 'package:my_resume/presentation/widgest/cv/portfolio/portfolio.dart';
 
 class CvPage extends StatefulWidget {
   const CvPage({super.key});
@@ -61,8 +61,10 @@ class _ContentPageState extends State<ContentPage> {
   late Tween<double> animate = Tween<double>(begin: 0, end: offsetUserBox);
 
   final GlobalKey _key = GlobalKey();
+  final GlobalKey _key2 = GlobalKey();
   final ScrollController _controller = ScrollController();
   bool _isStuck = false;
+  bool startAnim = false;
 
   @override
   void dispose() {
@@ -85,13 +87,19 @@ class _ContentPageState extends State<ContentPage> {
         final Offset offset = renderBox.localToGlobal(Offset.zero);
         final double startY = offset.dy;
 
+        /* if (startY2 < 100)
+          startAnim = true;
+        else if (startY2 >= MediaQuery.of(context).size.height)
+          startAnim = false; */
+
         setState(() {
           if (!_isStuck &&
               _controller.position.pixels > paddingTop - offsetUserBox) {
             _isStuck = true;
           } else {
-            if (_controller.position.pixels < paddingTop - offsetUserBox)
+            if (_controller.position.pixels < paddingTop - offsetUserBox) {
               _isStuck = false;
+            }
           }
         });
       },

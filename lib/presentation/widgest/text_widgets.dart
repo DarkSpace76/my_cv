@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_resume/style.dart';
+import 'package:my_resume/config/text_style.dart';
 
 textInformatino({String? title, String? text}) {
   return Padding(
