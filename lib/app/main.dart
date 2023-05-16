@@ -1,26 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_resume/presentation/pages/main/cv.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-/*   await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform
-      ); */
-
-  /*  if (kDebugMode) {
-    try {
-      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    } catch (e) {
-      // ignore: avoid_print
-      print(e);
-    }
-  } */
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   // This widget is the root of your application.
   @override
